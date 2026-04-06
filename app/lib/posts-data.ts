@@ -5,6 +5,7 @@ export interface Post {
   content: string;
   author: string;
   date: string;
+  coverImage: string;
 }
 
 export const posts: Post[] = [
@@ -17,6 +18,7 @@ export const posts: Post[] = [
       "Next.js is a React framework that enables server-side rendering and static site generation. With the App Router, you can build modern web applications using file-based routing, layouts, and React Server Components.",
     author: "Admin",
     date: "2026-04-01",
+    coverImage: "/images/nextjs-intro.jpg",
   },
   {
     id: 2,
@@ -27,6 +29,7 @@ export const posts: Post[] = [
       "React Server Components allow you to render components on the server, reducing the amount of JavaScript sent to the client. They are the default in Next.js App Router and are great for data fetching and static content.",
     author: "Admin",
     date: "2026-04-02",
+    coverImage: "/images/server-components.jpg",
   },
   {
     id: 3,
@@ -37,5 +40,6 @@ export const posts: Post[] = [
       "The App Router uses a file-system based routing approach. Folders define route segments, and special files like page.tsx and layout.tsx define the UI for each segment. Route groups, dynamic routes, and catch-all routes provide flexible URL patterns.",
     author: "Admin",
     date: "2026-04-03",
+    coverImage: "/images/app-router.jpg",
   },
 ];

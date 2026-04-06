@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Post, posts as allPosts } from "../../../lib/posts-data";
 
 // 3.4 Static Generation: pre-render all known post detail pages at build time
@@ -13,8 +14,12 @@ export default async function PostDetailPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
+  // 5.3 Caching strategies:
+  // - cache: "no-store"          → always fetch fresh data (SSR)
+  // - cache: "force-cache"       → cache indefinitely (default static)
+  // - next: { revalidate: 60 }   → ISR: revalidate every 60 seconds
   const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
 
   if (!res.ok) {
@@ -34,6 +39,16 @@ export default async function PostDetailPage({
 
   return (
     <article>
+      <div className="relative mb-6 h-64 w-full overflow-hidden rounded-xl">
+        <Image
+          src={post.coverImage}
+          alt={post.title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 800px"
+          priority
+        />
+      </div>
       <h1 className="mb-2 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
         {post.title}
       </h1>
