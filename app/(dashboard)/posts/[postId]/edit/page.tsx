@@ -1,5 +1,5 @@
-import { Post } from "../../../../lib/posts-data";
 import PostForm from "../../../../components/PostForm";
+import { getPostById } from "../../../../lib/posts-store";
 
 export default async function EditPostPage({
   params,
@@ -7,11 +7,9 @@ export default async function EditPostPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
-    cache: "no-store",
-  });
+  const post = getPostById(Number(postId));
 
-  if (!res.ok) {
+  if (!post) {
     return (
       <div className="text-center">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
@@ -20,8 +18,6 @@ export default async function EditPostPage({
       </div>
     );
   }
-
-  const post: Post = await res.json();
 
   return (
     <div>

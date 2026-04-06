@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/lib/auth";
 import {
   getPostById,
   updatePost,
@@ -22,6 +24,11 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ postId: string }> }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { postId } = await params;
   const body = await request.json();
   const updated = updatePost(Number(postId), body);
@@ -37,6 +44,11 @@ export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ postId: string }> }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { postId } = await params;
   const deleted = deletePost(Number(postId));
 

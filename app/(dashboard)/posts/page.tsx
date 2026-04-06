@@ -1,11 +1,8 @@
 import PostCard from "../../components/PostCard";
-import { Post } from "../../lib/posts-data";
+import { getAllPosts } from "../../lib/posts-store";
 
-export default async function PostsPage() {
-  const res = await fetch("http://localhost:3000/api/posts", {
-    cache: "no-store",
-  });
-  const posts: Post[] = await res.json();
+export default function PostsPage() {
+  const posts = getAllPosts();
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Post, posts as allPosts } from "../../../lib/posts-data";
+import { posts as allPosts } from "../../../lib/posts-data";
+import { getPostById } from "../../../lib/posts-store";
 
 // 3.4 Static Generation: pre-render all known post detail pages at build time
 export function generateStaticParams() {
@@ -15,15 +16,9 @@ export default async function PostDetailPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  // 5.3 Caching strategies:
-  // - cache: "no-store"          → always fetch fresh data (SSR)
-  // - cache: "force-cache"       → cache indefinitely (default static)
-  // - next: { revalidate: 60 }   → ISR: revalidate every 60 seconds
-  const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {
-    next: { revalidate: 60 },
-  });
+  const post = getPostById(Number(postId));
 
-  if (!res.ok) {
+  if (!post) {
     return (
       <div className="text-center">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
@@ -35,8 +30,6 @@ export default async function PostDetailPage({
       </div>
     );
   }
-
-  const post: Post = await res.json();
 
   return (
     <article>

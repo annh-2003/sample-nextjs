@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/lib/auth";
 import { getAllPosts, createPost } from "@/app/lib/posts-store";
 
 export async function GET() {
@@ -5,6 +7,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await request.json();
   const { title, excerpt, content, coverImage } = body;
 
