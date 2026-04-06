@@ -19,6 +19,7 @@ export default async function PostsPage() {
             id={post.id}
             title={post.title}
             excerpt={post.excerpt}
+            date={post.date}
           />
         ))}
       </div>
