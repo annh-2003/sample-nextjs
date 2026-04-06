@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Post, posts as allPosts } from "../../../lib/posts-data";
 
 // 3.4 Static Generation: pre-render all known post detail pages at build time
@@ -52,9 +53,15 @@ export default async function PostDetailPage({
       <h1 className="mb-2 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
         {post.title}
       </h1>
-      <div className="mb-6 flex gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+      <div className="mb-6 flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
         <span>By {post.author}</span>
         <span>{post.date}</span>
+        <Link
+          href={`/posts/${post.id}/edit`}
+          className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-blue-700"
+        >
+          Edit
+        </Link>
       </div>
       <p className="leading-7 text-zinc-700 dark:text-zinc-300">
         {post.content}

@@ -1,4 +1,5 @@
 import Sidebar from "../components/Sidebar";
+import { PostsProvider } from "../context/PostsContext";
 
 export default function DashboardLayout({
   children,
@@ -6,9 +7,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-row min-h-screen">
-      <Sidebar />
-      <main className="flex-1 p-8">{children}</main>
-    </div>
+    <PostsProvider>
+      <div className="flex flex-row min-h-screen">
+        <Sidebar />
+        <main className="flex-1 p-8">{children}</main>
+      </div>
+    </PostsProvider>
   );
 }
