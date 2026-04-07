@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostById } from "../../../lib/posts-store";
+import { getPostById } from "@/lib/posts-store";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ postId: string }>;
 }): Promise<Metadata> {
   const { postId } = await params;
-  const post = getPostById(Number(postId));
+  const post = await getPostById(Number(postId));
 
   if (!post) {
     return { title: "Post not found" };
@@ -37,7 +37,7 @@ export default async function PostDetailPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  const post = getPostById(Number(postId));
+  const post = await getPostById(Number(postId));
 
   if (!post) {
     return (

@@ -4,14 +4,14 @@ import {
   getPostById,
   updatePost,
   deletePost,
-} from "@/app/lib/posts-store";
+} from "@/lib/posts-store";
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ postId: string }> }
 ) {
   const { postId } = await params;
-  const post = getPostById(Number(postId));
+  const post = await getPostById(Number(postId));
 
   if (!post) {
     return Response.json({ error: "Post not found" }, { status: 404 });
@@ -31,7 +31,7 @@ export async function PUT(
 
   const { postId } = await params;
   const body = await request.json();
-  const updated = updatePost(Number(postId), body);
+  const updated = await updatePost(Number(postId), body);
 
   if (!updated) {
     return Response.json({ error: "Post not found" }, { status: 404 });
@@ -50,7 +50,7 @@ export async function DELETE(
   }
 
   const { postId } = await params;
-  const deleted = deletePost(Number(postId));
+  const deleted = await deletePost(Number(postId));
 
   if (!deleted) {
     return Response.json({ error: "Post not found" }, { status: 404 });

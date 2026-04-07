@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import PostCard from "@/app/components/PostCard";
+import PostCard from "@/components/posts/PostCard";
 
 // Mock next/link
 jest.mock("next/link", () => {
@@ -22,7 +22,7 @@ jest.mock("next/image", () => {
 });
 
 // Mock Badge component
-jest.mock("@/app/components/Badge", () => {
+jest.mock("@/components/ui/Badge", () => {
   return function MockBadge({ label }: { label: string }) {
     return <span>{label}</span>;
   };

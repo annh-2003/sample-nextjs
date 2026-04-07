@@ -1,5 +1,5 @@
-import PostForm from "../../../../components/PostForm";
-import { getPostById } from "../../../../lib/posts-store";
+import PostForm from "@/components/posts/PostForm";
+import { getPostById } from "@/lib/posts-store";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +9,7 @@ export default async function EditPostPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  const post = getPostById(Number(postId));
+  const post = await getPostById(Number(postId));
 
   if (!post) {
     return (

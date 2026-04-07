@@ -1,9 +1,9 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
-import { getAllPosts, createPost } from "@/app/lib/posts-store";
+import { getAllPosts, createPost } from "@/lib/posts-store";
 
 export async function GET() {
-  return Response.json(getAllPosts());
+  return Response.json(await getAllPosts());
 }
 
 export async function POST(request: NextRequest) {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const post = createPost({
+  const post = await createPost({
     title,
     excerpt,
     content,

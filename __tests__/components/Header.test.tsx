@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Header from "@/app/components/Header";
+import Header from "@/components/layout/Header";
 
 // Mock next/link
 jest.mock("next/link", () => {
@@ -11,6 +11,13 @@ jest.mock("next/link", () => {
     href: string;
   }) {
     return <a href={href}>{children}</a>;
+  };
+});
+
+// Mock UserMenu (uses next-auth/react internally)
+jest.mock("@/components/layout/UserMenu", () => {
+  return function MockUserMenu() {
+    return <span>UserMenu</span>;
   };
 });
 
@@ -32,7 +39,7 @@ describe("Header", () => {
     expect(postsLink.closest("a")).toHaveAttribute("href", "/posts");
   });
 
-  it("renders the avatar placeholder", () => {
+  it("renders the header element", () => {
     render(<Header />);
     const header = screen.getByRole("banner");
     expect(header).toBeInTheDocument();

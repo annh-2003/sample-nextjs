@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Badge from "./Badge";
+import Badge from "@/components/ui/Badge";
 
 interface PostCardProps {
   id: number;

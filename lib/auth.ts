@@ -1,6 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { validateCredentials } from "./users-store";
+import { validateCredentials } from "@/lib/users-store";
 
 function getBaseUrl() {
   if (process.env.NEXTAUTH_URL) return process.env.NEXTAUTH_URL;
@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const user = validateCredentials(
+        const user = await validateCredentials(
           credentials.email,
           credentials.password
         );
@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null;
 
         return {
-          id: user.id,
+          id: String(user.id),
           name: user.name,
           email: user.email,
         };

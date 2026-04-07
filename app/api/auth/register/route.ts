@@ -1,4 +1,4 @@
-import { findUserByEmail, createUser } from "@/app/lib/users-store";
+import { findUserByEmail, createUser } from "@/lib/users-store";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -18,14 +18,14 @@ export async function POST(request: Request) {
     );
   }
 
-  if (findUserByEmail(email)) {
+  if (await findUserByEmail(email)) {
     return Response.json(
       { error: "Email already registered" },
       { status: 409 }
     );
   }
 
-  const user = createUser({ name, email, password });
+  const user = await createUser({ name, email, password });
 
   return Response.json(
     { id: user.id, name: user.name, email: user.email },

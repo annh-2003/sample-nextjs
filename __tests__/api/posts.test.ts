@@ -1,4 +1,4 @@
-import { getAllPosts, getPostById, createPost } from "@/app/lib/posts-store";
+import { getAllPosts, getPostById, createPost } from "@/lib/posts-store";
 
 describe("/api/posts - Posts Store", () => {
   describe("getAllPosts", () => {

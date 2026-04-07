@@ -1,5 +1,5 @@
-import Sidebar from "../components/Sidebar";
-import { PostsProvider } from "../context/PostsContext";
+import Sidebar from "@/components/layout/Sidebar";
+import { PostsProvider } from "@/components/posts/PostsContext";
 
 export default function DashboardLayout({
   children,

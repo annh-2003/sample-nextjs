@@ -1,4 +1,4 @@
-import Greeting from "./components/Greeting";
+import Greeting from "@/components/ui/Greeting";
 
 export default function Home() {
   return (
