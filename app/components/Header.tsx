@@ -1,4 +1,5 @@
 import Link from "next/link";
+import UserMenu from "./UserMenu";
 
 export default function Header() {
   return (
@@ -17,7 +18,7 @@ export default function Header() {
           >
             Posts
           </Link>
-          <span className="h-8 w-8 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+          <UserMenu />
         </nav>
       </div>
     </header>
