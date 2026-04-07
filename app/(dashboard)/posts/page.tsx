@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import PostCard from "../../components/PostCard";
 import { getAllPosts } from "../../lib/posts-store";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "All Posts",
+  description: "Browse all blog posts in the Blog Admin dashboard.",
+};
 
 export default function PostsPage() {
   const posts = getAllPosts();

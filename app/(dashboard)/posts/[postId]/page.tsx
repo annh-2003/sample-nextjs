@@ -1,8 +1,35 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostById } from "../../../lib/posts-store";
 
 export const dynamic = "force-dynamic";
+
+// 10.1 Dynamic Metadata: generate title & description per post
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ postId: string }>;
+}): Promise<Metadata> {
+  const { postId } = await params;
+  const post = getPostById(Number(postId));
+
+  if (!post) {
+    return { title: "Post not found" };
+  }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.date,
+      authors: [post.author],
+    },
+  };
+}
 
 export default async function PostDetailPage({
   params,
@@ -25,8 +52,28 @@ export default async function PostDetailPage({
     );
   }
 
+  // 10.2 JSON-LD Structured Data for SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    datePublished: post.date,
+    image: post.coverImage,
+  };
+
   return (
     <article>
+      {/* Inject JSON-LD into <head> */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <div className="relative mb-6 h-64 w-full overflow-hidden rounded-xl">
         <Image
           src={post.coverImage}

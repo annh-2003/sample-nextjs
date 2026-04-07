@@ -15,8 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blog Admin",
-  description: "A simple blog administration application built with Next.js App Router",
+  title: {
+    default: "Blog Admin",
+    template: "%s | Blog Admin",
+  },
+  description:
+    "A simple blog administration application built with Next.js App Router",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Blog Admin",
+  },
 };
 
 export default function RootLayout({
