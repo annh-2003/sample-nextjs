@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
-  const router = useRouter();
   const pathname = usePathname();
   const lang = pathname.split("/")[1] || "en";
   const [email, setEmail] = useState("");
@@ -29,8 +28,8 @@ export default function LoginPage() {
       setError(lang === "vi" ? "Email hoặc mật khẩu không đúng" : "Invalid email or password");
       setIsLoading(false);
     } else {
-      router.push(`/${lang}/posts`);
-      router.refresh();
+      // Full page reload to ensure session cookie is sent with next request
+      window.location.href = `/${lang}/posts`;
     }
   }
 

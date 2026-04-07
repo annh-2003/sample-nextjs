@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const pathname = usePathname();
   const lang = pathname.split("/")[1] || "en";
   const [name, setName] = useState("");
@@ -43,8 +42,7 @@ export default function RegisterPage() {
       setError("Registration succeeded but sign in failed.");
       setIsLoading(false);
     } else {
-      router.push(`/${lang}/posts`);
-      router.refresh();
+      window.location.href = `/${lang}/posts`;
     }
   }
 
