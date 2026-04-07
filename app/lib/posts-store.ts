@@ -1,8 +1,15 @@
 import { Post, posts as initialPosts } from "./posts-data";
 
-// In-memory mutable store (resets on server restart)
+// Use globalThis to persist store across hot reloads in development
+// In production, this persists for the lifetime of the server process
 // In a real app, this would be a database
-const store: Post[] = [...initialPosts];
+const globalStore = globalThis as unknown as { __postsStore?: Post[] };
+
+if (!globalStore.__postsStore) {
+  globalStore.__postsStore = [...initialPosts];
+}
+
+const store = globalStore.__postsStore;
 
 export function getAllPosts(): Post[] {
   return store;

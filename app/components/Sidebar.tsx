@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/posts", label: "All Posts", icon: "+" },
-  { href: "/posts/create", label: "Add Post", icon: "+" },
+  { href: "/posts", label: "All Posts", icon: "+", exact: true },
+  { href: "/posts/create", label: "Add Post", icon: "+", exact: false },
 ];
 
 export default function Sidebar() {
@@ -18,8 +18,9 @@ export default function Sidebar() {
       </p>
       <nav className="flex flex-col gap-1">
         {navItems.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(item.href + "/");
+          const isActive = item.exact
+            ? pathname === item.href
+            : pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <Link
               key={item.href}

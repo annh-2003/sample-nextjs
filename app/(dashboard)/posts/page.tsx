@@ -1,6 +1,8 @@
 import PostCard from "../../components/PostCard";
 import { getAllPosts } from "../../lib/posts-store";
 
+export const dynamic = "force-dynamic";
+
 export default function PostsPage() {
   const posts = getAllPosts();
 

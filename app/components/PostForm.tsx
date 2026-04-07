@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePostsContext } from "../context/PostsContext";
 
 interface PostFormProps {
   initialData?: {
@@ -17,7 +16,6 @@ interface PostFormProps {
 
 export default function PostForm({ initialData, mode }: PostFormProps) {
   const router = useRouter();
-  const { setNotification } = usePostsContext();
   const [formData, setFormData] = useState({
     title: initialData?.title ?? "",
     excerpt: initialData?.excerpt ?? "",
@@ -57,10 +55,6 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         throw new Error(data.error || "Something went wrong");
       }
 
-      setNotification({
-        type: "success",
-        message: mode === "create" ? "Post created!" : "Post updated!",
-      });
       router.push("/posts");
       router.refresh();
     } catch (err) {

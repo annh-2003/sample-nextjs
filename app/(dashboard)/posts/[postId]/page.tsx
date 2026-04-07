@@ -1,14 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { posts as allPosts } from "../../../lib/posts-data";
 import { getPostById } from "../../../lib/posts-store";
 
-// 3.4 Static Generation: pre-render all known post detail pages at build time
-export function generateStaticParams() {
-  return allPosts.map((post) => ({
-    postId: String(post.id),
-  }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function PostDetailPage({
   params,

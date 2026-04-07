@@ -1,14 +1,14 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/lib/auth";
+import { getToken } from "next-auth/jwt";
+import { NextRequest } from "next/server";
 import { getAllPosts, createPost } from "@/app/lib/posts-store";
 
 export async function GET() {
   return Response.json(getAllPosts());
 }
 
-export async function POST(request: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+export async function POST(request: NextRequest) {
+  const token = await getToken({ req: request });
+  if (!token) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
