@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPostById } from "@/lib/posts-store";
 import { getDictionary } from "@/lib/dictionary";
-import type { Locale } from "@/lib/i18n";
+import { deletePostAction } from "@/lib/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -92,6 +92,16 @@ export default async function PostDetailPage({
         >
           {dict.posts.edit}
         </Link>
+        <form action={deletePostAction}>
+          <input type="hidden" name="id" value={post.id} />
+          <input type="hidden" name="lang" value={lang} />
+          <button
+            type="submit"
+            className="rounded-md bg-red-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-red-700"
+          >
+            {lang === "vi" ? "Xóa" : "Delete"}
+          </button>
+        </form>
       </div>
       <p className="leading-7 text-zinc-700 dark:text-zinc-300">
         {post.content}

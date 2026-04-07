@@ -66,7 +66,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  // 14.1 Custom middleware: log requests + add custom headers
+  const response = NextResponse.next();
+  response.headers.set("X-Request-Locale", locale);
+  response.headers.set("X-Request-Path", restPath);
+  response.headers.set("X-Powered-By", "Blog Admin Next.js");
+
+  console.log(
+    `[proxy] ${request.method} ${pathname} → locale=${locale} path=${restPath} auth=${!!token}`
+  );
+
+  return response;
 }
 
 export const config = {
