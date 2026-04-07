@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/dictionary";
+import { useAppDispatch } from "@/store/hooks";
+import { createPost as createPostThunk, updatePost as updatePostThunk } from "@/store/postsSlice";
 
 interface PostFormProps {
   initialData?: {
@@ -19,6 +21,7 @@ interface PostFormProps {
 
 export default function PostForm({ initialData, mode, lang = "en", dict }: PostFormProps) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const t = dict?.postForm;
   const [formData, setFormData] = useState({
     title: initialData?.title ?? "",
@@ -42,21 +45,12 @@ export default function PostForm({ initialData, mode, lang = "en", dict }: PostF
     setError("");
 
     try {
-      const url =
-        mode === "create"
-          ? "/api/posts"
-          : `/api/posts/${initialData?.id}`;
-      const method = mode === "create" ? "POST" : "PUT";
-
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Something went wrong");
+      if (mode === "create") {
+        await dispatch(createPostThunk(formData)).unwrap();
+      } else {
+        await dispatch(
+          updatePostThunk({ id: initialData!.id!, data: formData })
+        ).unwrap();
       }
 
       router.push(`/${lang}/posts`);
