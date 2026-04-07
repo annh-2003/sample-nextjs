@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Dictionary } from "@/lib/dictionary";
 
 interface PostFormProps {
   initialData?: {
@@ -12,10 +13,13 @@ interface PostFormProps {
     coverImage: string;
   };
   mode: "create" | "edit";
+  lang?: string;
+  dict?: Dictionary;
 }
 
-export default function PostForm({ initialData, mode }: PostFormProps) {
+export default function PostForm({ initialData, mode, lang = "en", dict }: PostFormProps) {
   const router = useRouter();
+  const t = dict?.postForm;
   const [formData, setFormData] = useState({
     title: initialData?.title ?? "",
     excerpt: initialData?.excerpt ?? "",
@@ -32,7 +36,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
@@ -55,7 +59,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         throw new Error(data.error || "Something went wrong");
       }
 
-      router.push("/posts");
+      router.push(`/${lang}/posts`);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -74,85 +78,64 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="title" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Title
+          {t?.titleLabel ?? "Title"}
         </label>
         <input
-          id="title"
-          name="title"
-          type="text"
-          value={formData.title}
-          onChange={handleChange}
-          required
+          id="title" name="title" type="text" value={formData.title} onChange={handleChange} required
           className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-          placeholder="Enter post title"
+          placeholder={t?.titlePlaceholder ?? "Enter post title"}
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="excerpt" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Excerpt
+          {t?.excerptLabel ?? "Excerpt"}
         </label>
         <input
-          id="excerpt"
-          name="excerpt"
-          type="text"
-          value={formData.excerpt}
-          onChange={handleChange}
-          required
+          id="excerpt" name="excerpt" type="text" value={formData.excerpt} onChange={handleChange} required
           className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-          placeholder="Short description"
+          placeholder={t?.excerptPlaceholder ?? "Short description"}
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="content" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Content
+          {t?.contentLabel ?? "Content"}
         </label>
         <textarea
-          id="content"
-          name="content"
-          value={formData.content}
-          onChange={handleChange}
-          required
-          rows={8}
+          id="content" name="content" value={formData.content} onChange={handleChange} required rows={8}
           className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-          placeholder="Write your post content..."
+          placeholder={t?.contentPlaceholder ?? "Write your post content..."}
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="coverImage" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          Cover Image URL
+          {t?.coverImageLabel ?? "Cover Image URL"}
         </label>
         <input
-          id="coverImage"
-          name="coverImage"
-          type="text"
-          value={formData.coverImage}
-          onChange={handleChange}
+          id="coverImage" name="coverImage" type="text" value={formData.coverImage} onChange={handleChange}
           className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
-          placeholder="/images/cover.jpg"
+          placeholder={t?.coverImagePlaceholder ?? "/images/cover.jpg"}
         />
       </div>
 
       <div className="flex gap-3">
         <button
-          type="submit"
-          disabled={isSubmitting}
+          type="submit" disabled={isSubmitting}
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting
-            ? "Saving..."
+            ? (t?.saving ?? "Saving...")
             : mode === "create"
-              ? "Create Post"
-              : "Update Post"}
+              ? (t?.createButton ?? "Create Post")
+              : (t?.updateButton ?? "Update Post")}
         </button>
         <button
-          type="button"
-          onClick={() => router.back()}
+          type="button" onClick={() => router.back()}
           className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
-          Cancel
+          {dict?.common.cancel ?? "Cancel"}
         </button>
       </div>
     </form>

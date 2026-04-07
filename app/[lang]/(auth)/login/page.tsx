@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
+  const pathname = usePathname();
+  const lang = pathname.split("/")[1] || "en";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
     setError("");
@@ -24,10 +26,10 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError("Invalid email or password");
+      setError(lang === "vi" ? "Email hoặc mật khẩu không đúng" : "Invalid email or password");
       setIsLoading(false);
     } else {
-      router.push("/posts");
+      router.push(`/${lang}/posts`);
       router.refresh();
     }
   }
@@ -36,7 +38,7 @@ export default function LoginPage() {
     <div className="flex flex-1 items-center justify-center p-8">
       <div className="w-full max-w-sm">
         <h1 className="mb-6 text-center text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-          Sign In
+          {lang === "vi" ? "Đăng nhập" : "Sign In"}
         </h1>
 
         {error && (
@@ -47,10 +49,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-            >
+            <label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
               Email
             </label>
             <input
@@ -65,11 +64,8 @@ export default function LoginPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
-            >
-              Password
+            <label htmlFor="password" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              {lang === "vi" ? "Mật khẩu" : "Password"}
             </label>
             <input
               id="password"
@@ -87,24 +83,23 @@ export default function LoginPage() {
             disabled={isLoading}
             className="rounded-lg bg-blue-600 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading
+              ? (lang === "vi" ? "Đang đăng nhập..." : "Signing in...")
+              : (lang === "vi" ? "Đăng nhập" : "Sign In")}
           </button>
         </form>
 
         <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/register"
-            className="font-medium text-blue-600 hover:underline"
-          >
-            Register
+          {lang === "vi" ? "Chưa có tài khoản?" : "Don't have an account?"}{" "}
+          <Link href={`/${lang}/register`} className="font-medium text-blue-600 hover:underline">
+            {lang === "vi" ? "Đăng ký" : "Register"}
           </Link>
         </p>
 
         <div className="mt-6 rounded-lg bg-zinc-100 p-3 text-xs text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
-          <p className="font-medium">Demo credentials:</p>
+          <p className="font-medium">{lang === "vi" ? "Tài khoản demo:" : "Demo credentials:"}</p>
           <p>Email: admin@gmail.com</p>
-          <p>Password: admin123</p>
+          <p>{lang === "vi" ? "Mật khẩu" : "Password"}: admin123</p>
         </div>
       </div>
     </div>

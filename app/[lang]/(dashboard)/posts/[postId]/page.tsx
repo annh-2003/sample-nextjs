@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostById } from "@/lib/posts-store";
+import { getDictionary } from "@/lib/dictionary";
+import type { Locale } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
-// 10.1 Dynamic Metadata: generate title & description per post
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ postId: string }>;
+  params: Promise<{ lang: string; postId: string }>;
 }): Promise<Metadata> {
   const { postId } = await params;
   const post = await getPostById(Number(postId));
@@ -34,46 +35,41 @@ export async function generateMetadata({
 export default async function PostDetailPage({
   params,
 }: {
-  params: Promise<{ postId: string }>;
+  params: Promise<{ lang: string; postId: string }>;
 }) {
-  const { postId } = await params;
+  const { lang, postId } = await params;
+  const dict = await getDictionary(lang);
   const post = await getPostById(Number(postId));
 
   if (!post) {
     return (
       <div className="text-center">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-          Post not found
+          {dict.posts.postNotFound}
         </h1>
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-          The post you are looking for does not exist.
+          {dict.posts.postNotFoundDesc}
         </p>
       </div>
     );
   }
 
-  // 10.2 JSON-LD Structured Data for SEO
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    author: {
-      "@type": "Person",
-      name: post.author,
-    },
+    author: { "@type": "Person", name: post.author },
     datePublished: post.date,
     image: post.coverImage,
   };
 
   return (
     <article>
-      {/* Inject JSON-LD into <head> */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
       <div className="relative mb-6 h-64 w-full overflow-hidden rounded-xl">
         <Image
           src={post.coverImage}
@@ -88,13 +84,13 @@ export default async function PostDetailPage({
         {post.title}
       </h1>
       <div className="mb-6 flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
-        <span>By {post.author}</span>
+        <span>{dict.posts.by} {post.author}</span>
         <span>{post.date}</span>
         <Link
-          href={`/posts/${post.id}/edit`}
+          href={`/${lang}/posts/${post.id}/edit`}
           className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-blue-700"
         >
-          Edit
+          {dict.posts.edit}
         </Link>
       </div>
       <p className="leading-7 text-zinc-700 dark:text-zinc-300">

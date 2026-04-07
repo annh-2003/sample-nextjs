@@ -1,0 +1,55 @@
+{
+  "common": {
+    "blogAdmin": "Blog Admin",
+    "posts": "Posts",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "cancel": "Cancel",
+    "save": "Save",
+    "menu": "Menu"
+  },
+  "home": {
+    "welcome": "Welcome to Blog Admin",
+    "description": "A simple blog management application built with Next.js App Router."
+  },
+  "sidebar": {
+    "allPosts": "All Posts",
+    "addPost": "Add Post"
+  },
+  "posts": {
+    "title": "All Posts",
+    "by": "By",
+    "edit": "Edit",
+    "postNotFound": "Post not found",
+    "postNotFoundDesc": "The post you are looking for does not exist."
+  },
+  "postForm": {
+    "createTitle": "Create New Post",
+    "editTitle": "Edit Post",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Enter post title",
+    "excerptLabel": "Excerpt",
+    "excerptPlaceholder": "Short description",
+    "contentLabel": "Content",
+    "contentPlaceholder": "Write your post content...",
+    "coverImageLabel": "Cover Image URL",
+    "coverImagePlaceholder": "/images/cover.jpg",
+    "createButton": "Create Post",
+    "updateButton": "Update Post",
+    "saving": "Saving..."
+  },
+  "auth": {
+    "signInTitle": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+    "createAccount": "Create Account",
+    "name": "Name",
+    "creatingAccount": "Creating account...",
+    "haveAccount": "Already have an account?",
+    "invalidCredentials": "Invalid email or password",
+    "demoCredentials": "Demo credentials"
+  }
+}

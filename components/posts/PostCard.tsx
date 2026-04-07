@@ -8,6 +8,7 @@ interface PostCardProps {
   excerpt: string;
   date?: string;
   coverImage?: string;
+  lang?: string;
 }
 
 export default function PostCard({
@@ -16,10 +17,11 @@ export default function PostCard({
   excerpt,
   date,
   coverImage,
+  lang = "en",
 }: PostCardProps) {
   return (
     <Link
-      href={`/posts/${id}`}
+      href={`/${lang}/posts/${id}`}
       className="group flex gap-4 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
     >
       {coverImage && (

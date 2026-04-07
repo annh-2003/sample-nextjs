@@ -2,19 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { Dictionary } from "@/lib/dictionary";
 
-const navItems = [
-  { href: "/posts", label: "All Posts", icon: "+", exact: true },
-  { href: "/posts/create", label: "Add Post", icon: "+", exact: false },
-];
+interface SidebarProps {
+  lang: string;
+  dict: Dictionary;
+}
 
-export default function Sidebar() {
+export default function Sidebar({ lang, dict }: SidebarProps) {
   const pathname = usePathname();
+
+  const navItems = [
+    { href: `/${lang}/posts`, label: dict.sidebar.allPosts, exact: true },
+    { href: `/${lang}/posts/create`, label: dict.sidebar.addPost, exact: false },
+  ];
 
   return (
     <aside className="flex w-60 flex-col gap-6 border-r border-zinc-200 bg-zinc-50 px-4 py-6 dark:border-zinc-800 dark:bg-zinc-950">
       <p className="px-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-        Menu
+        {dict.common.menu}
       </p>
       <nav className="flex flex-col gap-1">
         {navItems.map((item) => {

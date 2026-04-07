@@ -1,0 +1,55 @@
+{
+  "common": {
+    "blogAdmin": "Quản Trị Blog",
+    "posts": "Bài viết",
+    "signIn": "Đăng nhập",
+    "signOut": "Đăng xuất",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "menu": "Menu"
+  },
+  "home": {
+    "welcome": "Chào mừng đến Quản Trị Blog",
+    "description": "Ứng dụng quản lý blog đơn giản xây dựng với Next.js App Router."
+  },
+  "sidebar": {
+    "allPosts": "Tất cả bài viết",
+    "addPost": "Thêm bài viết"
+  },
+  "posts": {
+    "title": "Tất cả bài viết",
+    "by": "Bởi",
+    "edit": "Sửa",
+    "postNotFound": "Không tìm thấy bài viết",
+    "postNotFoundDesc": "Bài viết bạn đang tìm không tồn tại."
+  },
+  "postForm": {
+    "createTitle": "Tạo bài viết mới",
+    "editTitle": "Sửa bài viết",
+    "titleLabel": "Tiêu đề",
+    "titlePlaceholder": "Nhập tiêu đề bài viết",
+    "excerptLabel": "Tóm tắt",
+    "excerptPlaceholder": "Mô tả ngắn",
+    "contentLabel": "Nội dung",
+    "contentPlaceholder": "Viết nội dung bài viết...",
+    "coverImageLabel": "URL ảnh bìa",
+    "coverImagePlaceholder": "/images/cover.jpg",
+    "createButton": "Tạo bài viết",
+    "updateButton": "Cập nhật",
+    "saving": "Đang lưu..."
+  },
+  "auth": {
+    "signInTitle": "Đăng nhập",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "signingIn": "Đang đăng nhập...",
+    "noAccount": "Chưa có tài khoản?",
+    "register": "Đăng ký",
+    "createAccount": "Tạo tài khoản",
+    "name": "Tên",
+    "creatingAccount": "Đang tạo tài khoản...",
+    "haveAccount": "Đã có tài khoản?",
+    "invalidCredentials": "Email hoặc mật khẩu không đúng",
+    "demoCredentials": "Tài khoản demo"
+  }
+}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import UserMenu from "@/components/layout/UserMenu";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 
 export default function Header() {
   return (
@@ -18,6 +19,7 @@ export default function Header() {
           >
             Posts
           </Link>
+          <LanguageSwitcher />
           <UserMenu />
         </nav>
       </div>
